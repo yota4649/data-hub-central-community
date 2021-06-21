@@ -43,4 +43,12 @@ public class SystemController extends AbstractController {
 		}
 		SystemUtils.on(databaseClient).deleteDatasource(body.collections);
 	}
+
+	@RequestMapping(value = "/changeIndexes", method = RequestMethod.POST)
+	void changeIndexes() {
+		DatabaseClient databaseClient;
+		// Index setting only applied to FINAL database
+		databaseClient = getHubClient().getFinalClient();
+		SystemUtils.on(databaseClient).changeIndexes(getHubClient().getUsername());
+	}
 }

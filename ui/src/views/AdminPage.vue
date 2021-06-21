@@ -32,6 +32,24 @@ export default {
 				this.showFlowStatus=true;
 			}
 		},
+		async saveIndex() {
+			this.flowMsg = ""
+			this.flowError = ""
+			try {
+				let response = await axios.post("/api/system/changeIndexes")
+				if (response.data.success) {
+					this.flowMsg = "Index saved."
+					this.showFlowStatus = true;
+				}
+				else {
+					this.flowError = response.data.error
+					this.showFlowStatus = true;
+				}
+			} catch(error) {
+				this.flowError= error
+				this.showFlowStatus=true;
+			}
+		},
 		handleDataHubTableClick(event){
 			console.log(event);
 		}
@@ -66,6 +84,11 @@ export default {
 				database but does not delete any documents in data-hub-STAGING/FINAL that are assiciated
 				with entity services, flows, steps etc.</p>
 			<v-btn color="primary" class="right" v-on:click="resetDemo">Reset</v-btn>
+		</fieldset>
+		<fieldset class="col-sm-9">
+			<legend>Save Index</legend>
+			<p>Press the Save Index button to save indexes on MarkLogic. This is configured based on current user's entities/properties setting and applied to FINAL database only. </p>
+			<v-btn color="primary" class="right" v-on:click="saveIndex">Save Index</v-btn>
 		</fieldset>
 		<fieldset class="col-sm-9">
 			<legend>Enhancements</legend>

@@ -58,6 +58,20 @@ public interface SystemUtils {
                 );
             }
 
+            @Override
+            public Boolean changeIndexes(String user) {
+              return BaseProxy.BooleanType.toBoolean(
+                baseProxy
+                .request("changeIndexes.sjs", BaseProxy.ParameterValuesKind.SINGLE_ATOMIC)
+                .withSession()
+                .withParams(
+                    BaseProxy.atomicParam("user", true, BaseProxy.StringType.fromString(user)))
+                .withMethod("POST")
+                .responseSingle(false, null)
+                );
+            }
+
+
         }
 
         return new SystemUtilsImpl(db);
@@ -74,9 +88,18 @@ public interface SystemUtils {
   /**
    * Invokes the resetSystem operation on the database server
    *
-   * 
+   *
    * @return	as output
    */
     com.fasterxml.jackson.databind.JsonNode resetSystem();
+
+  /**
+   * Invokes the changeIndexes operation on the database server
+   *
+   * @param user  provides input
+   * @return  as output
+   */
+    Boolean changeIndexes(String user);
+
 
 }
